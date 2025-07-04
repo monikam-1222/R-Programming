@@ -1,0 +1,16 @@
+# Experiment 29: EDA on iris dataset
+data(iris)
+print(dim(iris))
+print(str(iris))
+print(summary(iris))
+print(sapply(iris[1:4], sd))
+print(aggregate(. ~ Species, data = iris, mean))
+print(aggregate(. ~ Species, data = iris, sd))
+print(quantile(iris$Sepal.Width))
+print(quantile(iris$Sepal.Length))
+iris$Sepal.Length.Cate <- cut(iris$Sepal.Length, breaks = quantile(iris$Sepal.Length), include.lowest = TRUE)
+iris1 <- iris
+print(aggregate(. ~ Species + Sepal.Length.Cate, data = iris1, mean))
+library(reshape2)
+pivot <- dcast(melt(iris1, id.vars = c("Species", "Sepal.Length.Cate")), Species + Sepal.Length.Cate ~ variable, mean)
+print(pivot)
